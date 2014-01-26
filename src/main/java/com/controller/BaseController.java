@@ -77,7 +77,7 @@ public class BaseController
             keysService.updateKey(key);
             String linkGen = emailService.generateEmailLink();
             generatedLinkService.link(user.getId(),linkGen);
-            String link = " http://localhost:8080/SW/" + linkGen + "/";
+            String link = " http://localhost:8080/SWays1/" + linkGen + "/";
             String text = "Bonjour "+user.getSurname()+" "+ user.getName() +  "\n Voici votre lien d'activation : " + link +"\n Pseudo :"+ user.getPseudo() +"\nClé d'activation :" + key.getKey();
             emailService.sendEmail(user.getMailAddress(), "thimab@gmail.com", "Lien d'activation Silent Ways", text);
             
@@ -174,7 +174,7 @@ public class BaseController
             user = userService.getUser(user.getId());
             user.setEnabled(true);
             userService.updateUserByAdmin(user);
-            
+            generatedLinkService.delete(linkGen);
             ModelAndView mav = new ModelAndView("redirect:/login.html");
             return mav;
         }

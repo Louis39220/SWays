@@ -31,7 +31,7 @@ pageEncoding="ISO-8859-1"%>
     <ul class="nav navbar-nav">
       <li class="active"><a href="#">Home</a></li>
       <li><a href="#">Forum</a></li>
-      <li><a href="#">Games</a></li>
+      <li><a href="games/qcm.html">Games</a></li>
       <li><a href="#">Tutorials</a></li>
     </ul>
     
