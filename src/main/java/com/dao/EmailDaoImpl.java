@@ -4,6 +4,7 @@ import com.entities.EmailSender;
 import com.entities.User;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -15,6 +16,7 @@ public class EmailDaoImpl implements EmailDao
 {
     @Autowired
     private JavaMailSender mailSender;
+    
     @Override
     public void sendEmail(final String toEmailAddresses, final String fromEmailAddress,
                            final String subject,

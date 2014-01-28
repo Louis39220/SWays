@@ -4,9 +4,9 @@ import com.entities.Question;
 
 
 public interface QuestionDao {
-    public Question getQuestionObj(int id);
+    public Question getQuestionObj(Integer id);
     
-    public String getQuestion(int id);
+    public String getQuestion(Integer id);
     public String getAnswer1(int id);
     public String getAnswer2(int id);
     public String getAnswer3(int id);

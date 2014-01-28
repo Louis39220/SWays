@@ -7,13 +7,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "game_mcq_questions")
+@Table(name = "game_mcq_question")
 public class Question
 {
     @Id 
     @GeneratedValue 
     @Column(name="questionId")
-    private int id;
+    private Integer id;
     
     @Column(name="question")
     private String question;
@@ -33,11 +33,11 @@ public class Question
     @Column(name="ans5")
     private String ans5;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -1,13 +1,13 @@
 package com.service;
 
-import java.util.List;
+
 import java.util.Random;
 
-import com.dao.KeysDao;
+
 import com.dao.QuestionDao;
-import com.entities.Keys;
+
 import com.entities.Mcq;
-import com.entities.Question;
+
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +24,8 @@ public class McqServiceImpl implements McqService
 
     @Override
     public Mcq generateMcq(int nb) {
-        int i = 1;
-        int j;
+        Integer i = 1;
+        Integer j;
         int taille;
         boolean ok;
         Mcq mcq = new Mcq();
@@ -57,6 +57,8 @@ public class McqServiceImpl implements McqService
             }
         }
         
+        /*Mcq mcq = new Mcq();
+        mcq.addQuestion(questionDao.getQuestionObj(1));*/
         return mcq;
     }
     

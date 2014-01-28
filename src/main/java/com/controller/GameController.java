@@ -28,6 +28,7 @@ public class GameController
         Mcq mcq = new Mcq();
         mcq = mcqService.generateMcq(1);
         ModelAndView mav = new ModelAndView();
+        mav.addObject("mcq",mcq);
         return mav;
     }
     

@@ -11,6 +11,10 @@ pageEncoding="ISO-8859-1"%>
     </head>
     <body>
         <h1>Generated MCQ</h1>
+        
+        ${mcq.getMcq().get(0).getQuestion()}
+        
+        
         <form name="mcq" action="/qcmCheck" method="POST" modelAttribute="mcq">
         <div ><br>
             Question 1: What is F's major third ? <br/><br/>

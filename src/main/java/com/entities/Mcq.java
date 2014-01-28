@@ -11,4 +11,8 @@ public class Mcq
     {
         return this.mcq;
     }
+    public void addQuestion(Question qu)
+    {
+        mcq.add(qu);
+    }
 }
