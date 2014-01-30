@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:security="http://www.springframework.org/schema/security"
+  xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+ 
+  <!-- Enable @Controller annotation support -->
+  <mvc:annotation-driven />
+  
+  
+  <mvc:resources mapping="/resources/**" location="WEB-INF/resources/theme1/" />
+ 
+  <!-- Map simple view name such as "test" into /WEB-INF/views/test.jsp -->
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/jsp/" />
+    <property name="suffix" value=".jsp" />
+  </bean>
+   
+  <!-- Scan classpath for annotations (eg: @Service, @Repository etc) -->
+  <context:component-scan base-package="com"/>
+   
+  <!-- JDBC Data Source. It is assumed you have MySQL running on localhost port 3306 with
+       username root and blank password. Change below if it's not the case -->
+  <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+    <property name="url" value="jdbc:mysql://localhost:3306/mydb?zeroDateTimeBehavior=convertToNull"/>
+    <property name="username" value="root"/>
+    <property name="password" value="root"/>
+  </bean>
+   
+  <!-- Hibernate Session Factory -->
+  <bean id="mySessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+    <property name="dataSource" ref="myDataSource"/>
+    <property name="packagesToScan">
+      <array>
+        <value>com</value>
+      </array>
+    </property>
+    <property name="hibernateProperties">
+      <value>
+        hibernate.dialect=org.hibernate.dialect.MySQLDialect
+              show_sql=true
+    hbm2ddl.auto=create
+      </value>
+    </property>
+  </bean>
+   
+  <!-- Hibernate Transaction Manager -->
+  <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    <property name="sessionFactory" ref="mySessionFactory"/>
+  </bean>
+   
+  <!-- Activates annotation based transaction management -->
+  <tx:annotation-driven transaction-manager="transactionManager"/>
+  
+  <!--Errors-->
+  <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+   <property name="exceptionMappings">
+      <props>
+         <prop key="com.exception.SpringException">
+            ExceptionPage
+         </prop>
+      </props>
+   </property>
+</bean>
+
+<security:http auto-config="true">
+    <security:form-login login-page="/login" default-target-url="/index"
+			authentication-failure-url="/loginfailed" />
+    <security:intercept-url pattern = "/login" requires-channel = "https" />
+    <security:intercept-url pattern = "/singin" requires-channel = "https" />
+    <security:intercept-url pattern="/user/**" access="ROLE_USER, ROLE_ADMIN" />
+    <security:intercept-url pattern="/admin/**" access="ROLE_ADMIN" />
+    <security:intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+    <security:logout logout-success-url="/index" />
+</security:http>
+  
+
+<security:authentication-manager>
+    <security:authentication-provider>
+        <security:password-encoder hash="sha">
+            <security:salt-source user-property="username"/>
+        </security:password-encoder>
+        <security:jdbc-user-service data-source-ref="myDataSource"
+ 
+		   users-by-username-query="
+		      select userPseudo,userPassword, enabled
+		      from user where userPseudo=? and enabled = 1" 
+ 
+		   authorities-by-username-query="
+		      select u.userPseudo, ur.userRole from user u, user_role ur 
+		      where u.userId = ur.userId and u.userPseudo =?"
+             />
+    </security:authentication-provider>
+</security:authentication-manager>
+
+<bean id="messageSource"
+	class="org.springframework.context.support.ResourceBundleMessageSource">
+	<property name="basenames">
+	    <list>
+		<value>mymessages</value>
+	    </list>
+	</property>
+  </bean>
+  
+  <!--Mail-->
+  <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.transport.protocole">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.smtp.host">smtp.gmail.com</prop>
+                <prop key="mail.smtp.port">587</prop>
+                
+            </props>
+        </property>
+        <property name="username" value="thimab@gmail.com" />
+        <property name="password" value="2CBZ1380" />
+    </bean>
+
+</beans>
