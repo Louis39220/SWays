@@ -5,6 +5,8 @@ import com.service.McqService;
 import com.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,15 +28,17 @@ public class GameController
     public ModelAndView qcm() 
     {
         Mcq mcq = new Mcq();
-        mcq = mcqService.generateMcq(1);
-        ModelAndView mav = new ModelAndView();
+        mcq = mcqService.generateMcq(10);
+        ModelAndView mav = new ModelAndView("user/games/qcm");
         mav.addObject("mcq",mcq);
         return mav;
     }
     
     @RequestMapping(value = "/qcm", method = RequestMethod.POST)
-    public String qcmCheck() 
+    public String qcmCheck(@ModelAttribute(value="mcq")Mcq mcq,BindingResult resutl) 
     {
+       mcq.getMcq().get(0).getAns();
+       
         return "user/games/qcm";
     }
 }

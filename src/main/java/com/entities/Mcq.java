@@ -13,6 +13,6 @@ public class Mcq
     }
     public void addQuestion(Question qu)
     {
-        mcq.add(qu);
+        this.mcq.add(qu);
     }
 }

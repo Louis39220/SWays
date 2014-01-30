@@ -2,21 +2,17 @@ package com.service;
 
 
 import java.util.Random;
-
-
 import com.dao.QuestionDao;
-
 import com.entities.Mcq;
-
-
-
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("mcqService")
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+@Transactional(propagation = Propagation.SUPPORTS)
 public class McqServiceImpl implements McqService
 {
     @Autowired
@@ -24,41 +20,34 @@ public class McqServiceImpl implements McqService
 
     @Override
     public Mcq generateMcq(int nb) {
-        Integer i = 1;
-        Integer j;
+        int i = 0;
+        int j=0;
         int taille;
+        int nombre;
         boolean ok;
         Mcq mcq = new Mcq();
+        Random rand = new Random();
+        List<Integer> list = new ArrayList();
+        int nbQu = questionDao.getNbQuestion();
+       
         
-        while(questionDao.getQuestion(i) != null)
+        while(i<nb)
         {
-            i++;
-        }
-        taille = i;
-        int tab[ ] = new int[i];
-        
-        while(i>0)
-        {
-            Random rand = new Random();
-            int nombre = rand.nextInt(i);
-            tab[i]=nombre;
-            j=0;
+            
+            nombre = rand.nextInt(nbQu);
             ok = true;
-            while(j<taille)
+            for(Integer it : list)
             {
-                if(nombre==tab[j])
-                        ok = false;
-                j++;
+                if(it==nombre)
+                    ok = false;
             }
             if(ok==true)
             {
-                mcq.getMcq().add(questionDao.getQuestionObj(nombre));
-                i--;
+                 mcq.addQuestion(questionDao.getQuestionObj(nombre+1));
+                 list.add(nombre);
+                i++;
             }
         }
-        
-        /*Mcq mcq = new Mcq();
-        mcq.addQuestion(questionDao.getQuestionObj(1));*/
         return mcq;
     }
     

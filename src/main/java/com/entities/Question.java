@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "game_mcq_question")
+@Table(name = "mydb.game_mcq_question")
 public class Question
 {
     @Id 
@@ -32,6 +32,28 @@ public class Question
     
     @Column(name="ans5")
     private String ans5;
+    
+    @Column(name="ans")
+    private int ans;
+    
+    @Column(name="point")
+    private int points;
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int point) {
+        this.points = point;
+    }
+
+    public int getAns() {
+        return ans;
+    }
+
+    public void setAns(int ans) {
+        this.ans = ans;
+    }
 
     public Integer getId() {
         return id;
