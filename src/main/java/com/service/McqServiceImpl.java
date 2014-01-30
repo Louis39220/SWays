@@ -21,11 +21,10 @@ public class McqServiceImpl implements McqService
     @Override
     public Mcq generateMcq(int nb) {
         int i = 0;
-        int j=0;
-        int taille;
         int nombre;
         boolean ok;
         Mcq mcq = new Mcq();
+        
         Random rand = new Random();
         List<Integer> list = new ArrayList();
         int nbQu = questionDao.getNbQuestion();
@@ -34,7 +33,7 @@ public class McqServiceImpl implements McqService
         while(i<nb)
         {
             
-            nombre = rand.nextInt(nbQu);
+            nombre = rand.nextInt(10);
             ok = true;
             for(Integer it : list)
             {
@@ -45,7 +44,7 @@ public class McqServiceImpl implements McqService
             {
                  mcq.addQuestion(questionDao.getQuestionObj(nombre+1));
                  list.add(nombre);
-                i++;
+                 i++;
             }
         }
         return mcq;
