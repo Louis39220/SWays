@@ -13,7 +13,7 @@
   <mvc:annotation-driven />
   
   
-  <mvc:resources mapping="/resources/**" location="WEB-INF/resources/theme1/" />
+  <mvc:resources mapping="/resources/**" location="WEB-INF/resources/files/" />
  
   <!-- Map simple view name such as "test" into /WEB-INF/views/test.jsp -->
   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -72,8 +72,6 @@
 <security:http auto-config="true">
     <security:form-login login-page="/login" default-target-url="/index"
 			authentication-failure-url="/loginfailed" />
-    <security:intercept-url pattern = "/login" requires-channel = "https" />
-    <security:intercept-url pattern = "/singin" requires-channel = "https" />
     <security:intercept-url pattern="/user/**" access="ROLE_USER, ROLE_ADMIN" />
     <security:intercept-url pattern="/admin/**" access="ROLE_ADMIN" />
     <security:intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY" />
@@ -117,11 +115,10 @@
                 <prop key="mail.smtp.starttls.enable">true</prop>
                 <prop key="mail.smtp.host">smtp.gmail.com</prop>
                 <prop key="mail.smtp.port">587</prop>
-                
             </props>
         </property>
-        <property name="username" value="thimab@gmail.com" />
-        <property name="password" value="2CBZ1380" />
+        <property name="username" value="mathias.arlaud@gmail.com" />
+        <property name="password" value="shark069" />
     </bean>
 
 </beans>
